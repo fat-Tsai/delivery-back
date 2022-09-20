@@ -12,7 +12,8 @@ const routes = [
   },
   {
     path: '/',
-    component: Main
+    component: Main,
+    children: []
   }
 ]
 

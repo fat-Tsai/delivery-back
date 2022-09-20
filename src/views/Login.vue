@@ -55,6 +55,7 @@
 
 <script>
 import { login } from '@/api/login.js'
+import { mapMutations } from 'vuex'
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Login',
@@ -77,6 +78,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['updateUserInfo']),
     async submit () {
       this.$refs.form.validate(async (valid) => {
         if (valid) {
@@ -85,7 +87,7 @@ export default {
           console.log(res)
           if (res.code === 200) { // 表示登录成功
             // 在网页端存储用户信息 现在后端是用的session 后面考虑使用token+Vuex
-            localStorage.setItem('userInfo', JSON.stringify(res.data))
+            this.updateUserInfo(JSON.stringify(res.data))
             this.$message.success('登录成功')
             this.$router.replace('/')
           } else {

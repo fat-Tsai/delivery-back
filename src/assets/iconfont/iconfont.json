@@ -1,0 +1,51 @@
+{
+  "id": "3659418",
+  "name": "后台管理图标",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "201578",
+      "name": "3.1订单",
+      "font_class": "31dingdan",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "2170870",
+      "name": "菜品-2",
+      "font_class": "caipin-",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
+      "icon_id": "3443902",
+      "name": "普通套餐",
+      "font_class": "putongtaocan",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "4784115",
+      "name": "首页",
+      "font_class": "shouye",
+      "unicode": "e658",
+      "unicode_decimal": 58968
+    },
+    {
+      "icon_id": "8712563",
+      "name": "B-08分类管理",
+      "font_class": "-fenleiguanli",
+      "unicode": "e6ac",
+      "unicode_decimal": 59052
+    },
+    {
+      "icon_id": "18931514",
+      "name": "员工管理",
+      "font_class": "yuangongguanli",
+      "unicode": "e6dc",
+      "unicode_decimal": 59100
+    }
+  ]
+}

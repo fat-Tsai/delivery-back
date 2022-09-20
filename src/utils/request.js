@@ -1,8 +1,6 @@
 import axios from 'axios'
 // import store from '@/store'
 
-// axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
-
 const request = axios.create({
   // baseURL: 'http://localhost:9979'
   baseURL: '/api',

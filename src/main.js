@@ -7,6 +7,8 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 // 导入全局样式表
 import '@/assets/css/global.css'
+// 导入iconfont库的样式文件
+import '@/assets/iconfont/iconfont.css'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
