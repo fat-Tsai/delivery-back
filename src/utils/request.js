@@ -1,5 +1,8 @@
 import axios from 'axios'
 // import store from '@/store'
+import router from '@/router'
+// 引入消息提示
+import { Message } from 'element-ui'
 
 const request = axios.create({
   // baseURL: 'http://localhost:9979'
@@ -25,15 +28,25 @@ request.interceptors.request.use(
 )
 
 // 添加响应拦截器
-request.interceptors.response.use(
-  function (response) {
-    // 对响应数据做点什么
-    return response
-  },
-  function (error) {
-    // 对响应错误做点什么
-    return Promise.reject(error)
+request.interceptors.response.use(res => {
+  const code = res.data.code
+  const msg = res.data.msg
+  if (code === 0 && msg === 'Not login') { // 未登录状态，无法访问后台
+    localStorage.removeItem('userInfo')
+    Message({
+      message: '暂未登录,没有权限',
+      type: 'error',
+      duration: 3000
+    })
+    router.replace('/login')
+  } else {
+    return res.data
   }
+},
+error => {
+  console.log(error)
+  return Promise.reject(error)
+}
 )
 
 export default request

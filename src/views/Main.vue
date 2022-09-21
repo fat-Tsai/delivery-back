@@ -60,7 +60,7 @@ export default {
   methods: {
     // 退出登录
     async logout () {
-      const { data: res } = await logout()
+      const res = await logout()
       if (res.code === 200) {
         this.$message.success('退出登录成功')
         localStorage.removeItem('userInfo')

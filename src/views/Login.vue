@@ -83,7 +83,7 @@ export default {
       this.$refs.form.validate(async (valid) => {
         if (valid) {
           this.loading = true
-          const { data: res } = await login(this.form)
+          const res = await login(this.form)
           console.log(res)
           if (res.code === 200) { // 表示登录成功
             // 在网页端存储用户信息 现在后端是用的session 后面考虑使用token+Vuex
