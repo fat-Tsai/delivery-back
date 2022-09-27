@@ -43,7 +43,7 @@
                     <div class="login-btn">
                         <el-button
                             round
-                            type="warning"
+                            type="primary"
                             @click="submit"
                             >登录</el-button>
                     </div>
@@ -151,11 +151,5 @@ export default {
         display: flex;
         justify-content: center;
         align-content: center;
-    }
-    // /deep/ .el-button--warning {
-    :deep(.el-button--warning) {
-        color: #FFF;
-        background-color: #efb602;
-        border-color: #efb602;
     }
 </style>

@@ -16,12 +16,14 @@
                     active-text-color="#fff"
                 >
                     <!-- 这里缺少一个多级路由菜单 -->
-                    <div v-for="item in list" :key="item.id">
-                        <el-menu-item :index="item.id" @click="menuSwitch(item)">
+                    <router-link v-for="item in list" :key="item.id" :to="indexPath">
+                      <div>
+                        <el-menu-item :index="item.id" @click="menuSwitch(item,false)">
                         <i class="iconfont" :class="item.icon"></i>
                         <span slot="title">{{item.name}}</span>
                         </el-menu-item>
-                    </div>
+                      </div>
+                    </router-link>
                 </el-menu>
             </el-scrollbar>
         </div>
@@ -30,6 +32,9 @@
             <!-- 头部位置放置二级路由和用户信息 -->
             <div class="navbar">
                 <div class="label">
+                  <span v-show="goBackFlag" class="goBack" @click="goBack(false)">
+                    <i class="iconfont icon-fanhui1" style="font-size: 18px; align-items: center;"></i> 返回
+                  </span>
                     <span>{{ indexName }}</span>
                 </div>
                 <div class="right-menu">
@@ -38,7 +43,7 @@
                 </div>
             </div>
             <!-- 路由占位符 -->
-            <router-view></router-view>
+            <router-view @change="activeChange"></router-view>
         </div>
     </div>
 </template>
@@ -54,7 +59,15 @@ export default {
     return {
       index: '1',
       indexName: '首页',
+      indexPath: '/home',
+      goBackFlag: false,
       list: menuList
+    }
+  },
+  // 用created方法解决路由跳转刷新失败的问题
+  created () {
+    if (this.$router.path !== '/home') {
+      this.$router.replace('/home')
     }
   },
   methods: {
@@ -69,11 +82,26 @@ export default {
       console.log('退出登录')
     },
     // 切换子菜单
-    menuSwitch (current) {
+    menuSwitch (current, flag) {
       this.index = current.id
       this.indexName = current.name
+      this.indexPath = current.path
+      this.goBackFlag = flag
+    },
+    activeChange (val1, val2) {
+      this.indexName = val1
+      this.goBackFlag = val2
+    },
+    goBack (flag) {
+      this.$router.back()
+      this.goBackFlag = flag
     }
+    // 页面刷新
+    // window.location.reload() {
+
+    // }
   },
+  // 计算属性
   computed: {
     ...mapGetters(['getName'])
   }
@@ -146,16 +174,23 @@ export default {
   font-size: 20px;
   margin-right: 10px;
 }
+
+// router-link包裹子菜单会出现下划线,router-link本质就是a标签,从网页检查来看也是,采用全局样式修改
+// a {
+//   text-decoration: none;
+// }
+
 // 右侧主要内容
 .main-container {
     position: relative;
     height: 100%;
     width: calc(100% - 190px);
-    // background-color: pink;
+    background-color: #f3f4f7;
 }
 .navbar {
     height: 64px;
     box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
+    background-color: #fff;
     .label {
         color: #333333;
         height: 64px;
@@ -168,6 +203,15 @@ export default {
         // 这个是动画效果 从左侧进入
         // opacity: 0;
         // animation: opacity 500ms ease-out 800ms forwards;
+        .goBack {
+          border-right: solid 1px #d8dde3;
+          padding-right: 14px;
+          margin-right: 14px;
+          font-size: 16px;
+          color: #333333;
+          cursor: pointer;
+          font-weight: 400;
+        }
     }
     .right-menu {
         float: right;
@@ -193,8 +237,4 @@ export default {
         }
     }
 }
-// /deep/ .el-scrollbar__view {
-//     // width: 100%;
-//     width: 100vh;
-// }
 </style>

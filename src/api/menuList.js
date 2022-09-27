@@ -2,7 +2,7 @@ export const menuList = [
   {
     id: '1',
     name: '首页',
-    path: '',
+    path: '/home',
     icon: 'icon-shouye',
     children: []
     // name: '门店管理',
@@ -10,7 +10,7 @@ export const menuList = [
   {
     id: '2',
     name: '员工管理',
-    path: '',
+    path: '/employeeManage',
     icon: 'icon-yuangongguanli',
     children: []
   },

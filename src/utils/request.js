@@ -8,7 +8,7 @@ const request = axios.create({
   // baseURL: 'http://localhost:9979'
   baseURL: '/api',
   withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000
+  timeout: 10000
 })
 
 // 添加请求拦截器
