@@ -43,7 +43,7 @@
         </el-form-item>
         <el-form-item>
           <el-button @click="goBack">取消</el-button>
-          <el-button type="primary" @click="submitForm('addEmployeeForm')">提交</el-button>
+          <el-button type="primary" @click="submitForm('addEmployeeForm')">保存</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { addEmployee } from '@/api/employee.js'
+import { addEmployee, queryEmployeeById } from '@/api/employee.js'
 import {
   checkUserName,
   checkName,
@@ -75,10 +75,29 @@ export default {
         name: [{ required: true, validator: checkName, trigger: 'blur' }],
         phone: [{ required: true, validator: checkPhone, trigger: 'blur' }],
         idNumber: [{ required: true, validator: validID, trigger: 'blur' }]
-      }
+      },
+      id: ''
+    }
+  },
+  created () {
+    this.id = this.$route.query.id
+    console.log(this.id)
+    if (this.id) {
+      this.init()
     }
   },
   methods: {
+    async init () {
+      queryEmployeeById(this.id).then(res => {
+        console.log('查询到员工信息：', res)
+        if (res.code === 200) {
+          this.addEmployeeForm = res.data
+          // this.addEmployeeForm.sex = res.data.sex === '0' ? '女' : '男'
+        } else {
+          this.$message.error(res.msg || '操作失败')
+        }
+      })
+    },
     goBack () {
       this.$router.back()
       this.$emit('change', '员工管理', false)

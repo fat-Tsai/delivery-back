@@ -96,10 +96,9 @@ export default {
       this.$router.back()
       this.goBackFlag = flag
     }
-    // 页面刷新
-    // window.location.reload() {
-
-    // }
+    /**
+     * 页面刷新可以使用Router.reload(),相当于window.location.reload()
+     */
   },
   // 计算属性
   computed: {
@@ -111,7 +110,8 @@ export default {
 <style lang="less" scoped>
 // 整个页面
 .wrapper {
-    display: flex;
+  display: flex;
+  background-color: #f3f4f7;
 }
 
 // 侧边栏

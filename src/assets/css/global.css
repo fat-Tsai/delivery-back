@@ -42,8 +42,12 @@ a {
     color: #f56c6c !important;
     position: relative;
 }
+.useBtn {
+    color: #0ecb60;
+}
 .editBtn::after,
-.delBtn::after {
+.delBtn::after
+.useBtn::after {
     content: "";
     position: absolute;
     right: -6px;
@@ -74,3 +78,26 @@ a {
     border-color: #efb602;
     outline: 0;
 }
+
+.el-button--text:focus,
+.el-button--text:hover {
+  color: #fdd24c;
+  border-color: transparent;
+  background-color: transparent;
+}
+.el-button--text:active {
+  color: #efb602;
+  background-color: transparent;
+}
+
+.el-button--warning {
+    color: #fff;
+    background-color: #ffb302;
+    border-color: #ffb302;
+  }
+  .el-button--warning:focus,
+  .el-button--warning:hover {
+    background: #ffc235;
+    border-color: #ffc235;
+    color: #fff;
+  }
