@@ -42,6 +42,7 @@ a {
     color: #f56c6c !important;
     position: relative;
 }
+/* el-table的操作-- 启用 */
 .useBtn {
     color: #0ecb60;
 }

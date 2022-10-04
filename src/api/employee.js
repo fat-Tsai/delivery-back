@@ -10,9 +10,9 @@ export const getEmployeeList = (page, pageSize, name) => {
   return request.get('/employee/page?page=' + page + '&pageSize=' + pageSize + '&name=' + name)
 }
 
-// 修改员工状态
-export const enableOrDisableEmployee = params => {
-  return request.post('/employee/changeStatus', params)
+// 修改员工状态 || 修改员工信息
+export const editEmployee = params => {
+  return request.put('/employee', params)
 }
 
 // 查询员工信息

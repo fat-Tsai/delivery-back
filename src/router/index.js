@@ -5,6 +5,7 @@ import Main from '@/views/Main.vue'
 import Home from '@/views/Home.vue'
 import EmployeeManage from '@/views/EmployeeManage.vue'
 import AddEmployee from '@/components/AddEmployee.vue'
+import Category from '@/views/Category.vue'
 
 Vue.use(VueRouter)
 
@@ -29,6 +30,10 @@ const routes = [
       {
         path: 'addEmployee',
         component: AddEmployee
+      },
+      {
+        path: 'category',
+        component: Category
       }
     ]
   }

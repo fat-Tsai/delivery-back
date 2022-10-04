@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { addEmployee, queryEmployeeById } from '@/api/employee.js'
+import { addEmployee, queryEmployeeById, editEmployee } from '@/api/employee.js'
 import {
   checkUserName,
   checkName,
@@ -76,12 +76,13 @@ export default {
         phone: [{ required: true, validator: checkPhone, trigger: 'blur' }],
         idNumber: [{ required: true, validator: validID, trigger: 'blur' }]
       },
-      id: ''
+      id: '',
+      actionType: ''
     }
   },
   created () {
     this.id = this.$route.query.id
-    console.log(this.id)
+    this.actionType = this.id ? 'edit' : 'add'
     if (this.id) {
       this.init()
     }
@@ -105,17 +106,30 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          console.log(this.addEmployeeForm)
-          addEmployee(this.addEmployeeForm).then(res => {
-            if (res.code === 200) {
-              this.$message.success('员工添加成功')
-              this.$router.back()
-            } else {
-              this.$message.error(res.msg || '操作失败')
-            }
-          }).catch(err => {
-            this.$message.error('请求出错：' + err)
-          })
+          if (this.actionType === 'add') {
+            console.log(this.addEmployeeForm)
+            addEmployee(this.addEmployeeForm).then(res => {
+              if (res.code === 200) {
+                this.$message.success('员工添加成功')
+                this.$router.back()
+              } else {
+                this.$message.error(res.msg || '操作失败')
+              }
+            }).catch(err => {
+              this.$message.error('请求出错：' + err)
+            })
+          } else {
+            editEmployee(this.addEmployeeForm).then(res => {
+              if (res.code === 200) {
+                this.$message.success('员工信息修改成功！')
+                this.goBack()
+              } else {
+                this.$message.error(res.msg || '操作失败')
+              }
+            }).catch(err => {
+              this.$message.error('请求出错了：' + err)
+            })
+          }
         } else {
           console.log('error submit!!')
           return false
