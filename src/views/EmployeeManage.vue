@@ -66,7 +66,6 @@
           layout="total, sizes, prev, pager, next, jumper"
           :total="counts"
           :current-page.sync="page"
-          :pager-count="10"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
         ></el-pagination>
