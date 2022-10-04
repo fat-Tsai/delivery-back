@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { getEmployeeList, enableOrDisableEmployee } from '@/api/employee.js'
+import { getEmployeeList, editEmployee } from '@/api/employee.js'
 export default {
   name: 'EmployeeManage',
   data () {
@@ -118,14 +118,16 @@ export default {
       this.$emit('change', '修改员工', true)
     },
     handleStatus (index, row) {
-      this.id = row.id
-      this.status = !row.status ? 1 : 0
+      console.log('list[index]:', this.list[index])
+      this.list[index].status = !row.status ? 1 : 0
+      console.log(this.list[index].status)
       this.$confirm('确认调整该账号的状态?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        enableOrDisableEmployee({ id: this.id, status: this.status }).then(res => {
+        editEmployee(this.list[index]).then(res => {
+          console.log(res)
           if (res.code === 200) {
             this.$message.success('账号状态更改成功！')
             this.handleQuery()
