@@ -17,7 +17,7 @@ export const menuList = [
   {
     id: '3',
     name: '分类管理',
-    path: '',
+    path: '/category',
     icon: 'icon--fenleiguanli',
     children: []
   },

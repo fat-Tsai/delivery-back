@@ -50,3 +50,13 @@ export const validID = (rule, value, callback) => {
     callback(new Error('身份证号码不正确'))
   }
 }
+
+// 菜品分类的排序验证
+export const validSort = (rule, value, callback) => {
+  const reg = /^\d+$/
+  if (value === '') {
+    callback(new Error('请输入该菜品的排序'))
+  } else if (reg.test(value)) {
+    callback()
+  }
+}
