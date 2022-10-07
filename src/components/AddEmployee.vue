@@ -127,7 +127,7 @@ export default {
                 this.$message.error(res.msg || '操作失败')
               }
             }).catch(err => {
-              this.$message.error('请求出错了：' + err)
+              this.$message.error('请求出错：' + err)
             })
           }
         } else {

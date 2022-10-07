@@ -32,19 +32,22 @@ a {
 }
 
 /* el-table的操作-- 编辑 */
-.editBtn {
+.editBtn{
     font-size: 13px;
-    color: #419eff;
+    color: #419eff !important; 
     position: relative;
 }
 /* el-table的操作-- 删除 */
 .delBtn {
+    font-size: 13px;
     color: #f56c6c !important;
     position: relative;
 }
 /* el-table的操作-- 启用 */
 .useBtn {
-    color: #0ecb60;
+    font-size: 13px;
+    color: #0ecb60 !important;
+    position: relative;
 }
 .editBtn::after,
 .delBtn::after
@@ -95,10 +98,30 @@ a {
     color: #fff;
     background-color: #ffb302;
     border-color: #ffb302;
-  }
-  .el-button--warning:focus,
-  .el-button--warning:hover {
+}
+.el-button--warning:focus,
+.el-button--warning:hover {
     background: #ffc235;
     border-color: #ffc235;
     color: #fff;
-  }
+}
+
+/* 弹窗 */
+.el-dialog {
+    min-width: 568px !important;
+    border-radius: 8px !important;
+}
+ /* 弹窗头部深色 */
+.el-dialog__header {
+    padding: 20px 30px;
+    background: #fbfbfa;
+    border-radius: 8px 8px 0px 0px;
+    border-bottom: 1px solid #e5e4e4;
+}
+/* 弹窗底部字体居中 */
+.el-dialog__footer {
+    padding: 10px 20px 20px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
