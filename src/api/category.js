@@ -19,3 +19,8 @@ export const delCategory = (id) => {
 export const updateCategory = params => {
   return request.put('/category', params)
 }
+
+// 获取菜品/套餐信息
+export const getList = type => {
+  return request.get(`/category/list?type=${type}`)
+}

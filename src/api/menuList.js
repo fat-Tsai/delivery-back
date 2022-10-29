@@ -24,7 +24,7 @@ export const menuList = [
   {
     id: '4',
     name: '菜品管理',
-    path: '',
+    path: '/dish',
     icon: 'icon-caipin-',
     children: []
   },

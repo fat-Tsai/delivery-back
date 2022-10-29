@@ -6,6 +6,8 @@ import Home from '@/views/Home.vue'
 import EmployeeManage from '@/views/EmployeeManage.vue'
 import AddEmployee from '@/components/AddEmployee.vue'
 import Category from '@/views/Category.vue'
+import Dish from '@/views/Dish.vue'
+import addDish from '@/components/AddDish.vue'
 
 Vue.use(VueRouter)
 
@@ -34,6 +36,18 @@ const routes = [
       {
         path: 'category',
         component: Category
+      },
+      {
+        path: 'dish',
+        component: Dish
+      },
+      {
+        path: 'addDish',
+        component: addDish
+      },
+      {
+        path: 'test',
+        component: () => import('@/views/Test.vue')
       }
     ]
   }

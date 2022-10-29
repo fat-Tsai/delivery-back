@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { addEmployee, queryEmployeeById, editEmployee, editEmployee } from '@/api/employee.js'
+import { addEmployee, queryEmployeeById, editEmployee } from '@/api/employee.js'
 import {
   checkUserName,
   checkName,

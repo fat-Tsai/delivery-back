@@ -125,3 +125,45 @@ a {
     box-sizing: border-box;
 }
 
+/* 设置输入框的边框颜色 */
+.el-input .el-input__inner:hover {
+    border-color: #ffc200;  
+}
+
+/* 设置分页page在选择一页几条的边框颜色 */
+.el-pagination__sizes {
+    border-color: #ffc200;
+}
+
+/* 设置分页page选择页数时的字体颜色 */
+.el-pager li {
+    color: #bac0cd;
+}
+.el-pager li:hover {
+    color: #ffc200;
+}
+.el-pager li.active {
+    color: #ffc200;
+    cursor: default;
+}
+
+/* 设置选中框的颜色  */
+.el-checkbox__input.is-checked .el-checkbox__inner,
+.el-checkbox__input.is-indeterminate .el-checkbox__inner {
+    background-color: #ffc200;
+    border-color: #ffc200;
+}
+.el-checkbox__input.is-checked .el-checkbox__inner,
+.el-checkbox__inner:hover {
+    border-color: #ffc200;
+}
+
+/* 设置选中框位置固定 */
+/* 找到祖先元素，为不同的checkbox设置不一样的表现样式 */
+.el-table_1_column_1 .el-checkbox__inner {
+    display: block;
+}
+
+.el-checkbox__inner {
+    display: block;
+}
