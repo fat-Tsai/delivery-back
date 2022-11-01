@@ -7,7 +7,9 @@ import EmployeeManage from '@/views/EmployeeManage.vue'
 import AddEmployee from '@/components/AddEmployee.vue'
 import Category from '@/views/Category.vue'
 import Dish from '@/views/Dish.vue'
-import addDish from '@/components/AddDish.vue'
+import AddDish from '@/components/AddDish.vue'
+import Setmeal from '@/views/Setmeal.vue'
+import AddSetmeal from '@/components/AddSetmeal.vue'
 
 Vue.use(VueRouter)
 
@@ -43,11 +45,15 @@ const routes = [
       },
       {
         path: 'addDish',
-        component: addDish
+        component: AddDish
       },
       {
-        path: 'test',
-        component: () => import('@/views/Test.vue')
+        path: 'setmeal',
+        component: Setmeal
+      },
+      {
+        path: 'addSetmeal',
+        component: AddSetmeal
       }
     ]
   }

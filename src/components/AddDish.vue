@@ -11,10 +11,10 @@
                         <el-option v-for="item in dishList" :key="item.id" :label="item.name" :value="item.id" />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="菜品名称">
+                <el-form-item label="菜品名称" required>
                     <el-input v-model="form.name" placeholder="请填写菜品名称"></el-input>
                 </el-form-item>
-                <el-form-item label="菜品价格">
+                <el-form-item label="菜品价格" required>
                     <el-input v-model="form.price" placeholder="请设置菜品价格"></el-input>
                 </el-form-item>
                 <el-form-item label="口味做法配置" prop="flavors">
@@ -86,7 +86,7 @@
                     </div>
                   </div>
                 </el-form-item>
-                <el-form-item label="菜品图片">
+                <el-form-item label="菜品图片" required>
                     <el-upload class="avatar-uploader"
                           action="/api/common/upload"
                           :show-file-list="false"
@@ -197,6 +197,7 @@ export default {
         this.dishFlavors = res.data.flavors && res.data.flavors.map(obj => ({ ...obj, value: JSON.parse(obj.value), showOption: false }))
         // 图片回显
         this.imageUrl = this.form.image
+        console.log('form.categoryId:', this.form)
       } else {
         this.$message.error(res.msg || '操作失败')
       }

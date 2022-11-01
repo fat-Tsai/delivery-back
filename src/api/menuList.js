@@ -31,7 +31,7 @@ export const menuList = [
   {
     id: '5',
     name: '套餐管理',
-    path: '',
+    path: '/setmeal',
     icon: 'icon-putongtaocan',
     children: []
   },

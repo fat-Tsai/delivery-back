@@ -83,6 +83,7 @@ a {
     outline: 0;
 }
 
+.el-button--text,
 .el-button--text:focus,
 .el-button--text:hover {
   color: #fdd24c;
@@ -159,11 +160,16 @@ a {
 }
 
 /* 设置选中框位置固定 */
-/* 找到祖先元素，为不同的checkbox设置不一样的表现样式 */
-.el-table_1_column_1 .el-checkbox__inner {
-    display: block;
-}
-
 .el-checkbox__inner {
     display: block;
 }
+修改el-checkbox__label的宽度
+.el-checkbox__label {
+    width: 100%;
+}
+
+/* 修改checkbox选中时的字体颜色 */
+.el-checkbox__input.is-checked+.el-checkbox__label {
+    color: #ffc200;
+}
+

@@ -12,6 +12,7 @@ export const getDishInfo = id => {
   return request.get(`/dish/${id}`)
 }
 
+// 修改菜品信息
 export const updateDish = params => {
   return request.put('/dish', params)
 }
@@ -22,4 +23,8 @@ export const changeDishStatus = (params) => {
 
 export const deleteDish = id => {
   return request.delete(`/dish?ids=${id}`)
+}
+
+export const queryDishList = id => {
+  return request.get(`/dish/list?categoryId=${id}`)
 }

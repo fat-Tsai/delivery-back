@@ -19,7 +19,7 @@
                 <span class="span-btn delBtn" @click="deleteHandle('批量',null)">批量删除</span>
                 <span class="span-btn editBtn" @click="statusHandle(1)">批量起售</span>
                 <span class="span-btn delBtn" @click="statusHandle(0)">批量停售</span>
-                <el-button type="primary" @click="add">新增菜品</el-button>
+                <el-button type="primary" @click="add">新增套餐</el-button>
             </div>
         </div>
         <!-- 中间表格数据填充 -->
@@ -90,10 +90,10 @@
 </template>
 
 <script>
-import { getDishList, changeDishStatus, deleteDish } from '@/api/dish'
+import { getSetmealList, updateSetmealStatus, deleteSetmeal } from '@/api/setmeal'
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: 'Dish',
+  name: 'Setmeal',
   data () {
     return {
       list: [],
@@ -123,17 +123,17 @@ export default {
       this.init()
     },
     add () {
-      this.$router.push('/addDish')
-      this.$emit('change', '添加菜品', true)
+      this.$router.push('/addSetmeal')
+      this.$emit('change', '添加套餐', true)
     },
     // 修改 --菜品信息
     handleEdit (index, row) {
-      this.$router.push({ path: '/addDish', query: { id: row.id } })
-      this.$emit('change', '修改菜品', true)
+      this.$router.push({ path: '/addSetmeal', query: { id: row.id } })
+      this.$emit('change', '修改套餐', true)
     },
     async init () {
-      const res = await getDishList(this.page, this.pageSize, this.searchMsg)
-      console.log('菜品管理的list:', res)
+      const res = await getSetmealList(this.page, this.pageSize, this.searchMsg)
+      console.log('套餐管理的list:', res)
       if (res.code === 200) {
         this.list = res.data.records
         this.counts = res.data.total
@@ -150,7 +150,7 @@ export default {
       // eslint-disable-next-line valid-typeof
       if (typeof row === 'number') {
         if (this.checkList.length === 0) {
-          this.$message.warning('批量操作，请先勾选所需菜品')
+          this.$message.warning('批量操作，请先勾选所需套餐')
           return false
         }
         params.ids = this.checkList.join(',')
@@ -166,9 +166,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        changeDishStatus(params).then(res => {
+        updateSetmealStatus(params).then(res => {
           if (res.code === 200) {
-            this.$message.success('菜品状态已经更改成功！')
+            this.$message.success('套餐状态已经更改成功！')
             this.handleQuery()
           } else {
             this.$message.error(res.msg || '操作失败')
@@ -191,7 +191,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteDish(type === '批量' ? this.checkList.join(',') : id).then(res => {
+        deleteSetmeal(type === '批量' ? this.checkList.join(',') : id).then(res => {
           if (res.code === 200) {
             this.$message.success('菜品删除成功！')
             this.handleQuery()
@@ -212,7 +212,6 @@ export default {
       })
       this.checkList = checkArr
     },
-    // 图片获取的方法 待优化
     getImage (image) {
       return `/common/download?name=${image}`
     }
@@ -250,19 +249,10 @@ export default {
     }
   }
 }
-.el-table td, .el-table th {
-  padding: 12px 0;
-  min-width: 0;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  text-overflow: ellipsis;
-  vertical-align: middle;
-  position: relative;
-  text-align: left;  // 左对齐
+.tableBox el-table__body-wrapper tbody tr .cell .el-checkbox {
+  display: block;
 }
-.el-table .cell, .el-table th div {
-  padding-right: 10px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.el-checkbox__input .el-checkbox__inner {
+  display: block;
 }
 </style>
