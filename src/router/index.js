@@ -54,6 +54,10 @@ const routes = [
       {
         path: 'addSetmeal',
         component: AddSetmeal
+      },
+      {
+        path: 'test',
+        component: () => import('@/views/Test1.vue')
       }
     ]
   }

@@ -196,7 +196,7 @@ export default {
         this.form.price /= 100
         this.dishFlavors = res.data.flavors && res.data.flavors.map(obj => ({ ...obj, value: JSON.parse(obj.value), showOption: false }))
         // 图片回显
-        this.imageUrl = this.form.image
+        this.imageUrl = 'http://rkt7dnyi5.hn-bkt.clouddn.com/' + this.form.image
         console.log('form.categoryId:', this.form)
       } else {
         this.$message.error(res.msg || '操作失败')
@@ -228,8 +228,9 @@ export default {
 
     // 上传图片完成时执行的方法
     handleAvatarSuccess (response, file, fileList) {
-      this.imageUrl = `/api/common/download?name=${response.data}`
-      console.log(this.imageUrl)
+      this.form.image = response.data
+      this.imageUrl = 'http://rkt7dnyi5.hn-bkt.clouddn.com/' + this.form.image
+      console.log('imageUrl:', this.imageUrl)
     },
 
     // 上传图片前执行
@@ -269,8 +270,6 @@ export default {
           params.flavors = this.dishFlavors.map(obj => ({ ...obj, value: JSON.stringify(obj.value) }))
           if (!this.imageUrl) {
             this.$message.error('请上传菜品图片')
-          } else {
-            params.image = this.imageUrl
           }
           if (this.actiontype === 'add') {
             addDish(params).then(res => {

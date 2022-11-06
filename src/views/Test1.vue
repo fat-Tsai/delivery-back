@@ -2,12 +2,14 @@
     <div class="addBrand-container" id="food-add-app">
     <div class="container">
         <el-upload class="avatar-uploader"
-                action="/api/common/upload"
+                action="http://upload-z2.qiniup.com"
+                :headers="headers"
+                :data="upform"
                 :show-file-list="false"
-                :on-success="handleAvatarSuccess"
                 :before-upload="beforeUpload"
                 ref="upload"
-                :on-remove="removeHandle">
+                :on-remove="removeHandle"
+                on-success="handleAvatarSuccess">
             <img v-if="imageUrl" :src="imageUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
@@ -16,24 +18,38 @@
 </template>
 
 <script>
+import { getUploadToken, up2QiNiu } from '@/api'
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Test',
   data () {
     return {
+      domin: 'http(s)://upload-z2.qiniup.com',
+      serve: 'http://rkt7dnyi5.hn-bkt.clouddn.com/',
+      headers: { 'Content-Type': 'multipart/form-data' },
+      form: {
+        token: ''
+      },
       imageUrl: ''
     }
   },
   methods: {
-    handleAvatarSuccess (response, file, fileList) {
-      this.imageUrl = response.data
-      console.log(this.imageUrl)
+    toQiniu () {
+      const config = {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      }
+      up2QiNiu(this.domin, this.upform, config).then(res => {
+        console.log(res)
+      })
     },
-    beforeUpload (file) {
-      console.log(`file:${file}`) // [object File] 如何把file读出来
-      const data = JSON.stringify(file)
-      console.log(data)
-      console.log(file.location)
+    handleAvatarSuccess (response, file, fileList) {
+      console.log(`response:${response}`)
+      console.log(`file:${file}`)
+      console.log(`fileList:${fileList}`)
+    //   this.imageUrl = response.data
+    //   console.log(this.imageUrl)
+    },
+    async beforeUpload (file) {
       if (file) {
         const fileName = file.name
         console.log('fileName', fileName)
@@ -50,7 +66,10 @@ export default {
           this.$message.error('上传文件大小不能超过 2MB!')
           return false
         }
-        console.log(`file文件应该是我们自己定义的${file}`)
+        // 获取token
+        const { data: res } = await getUploadToken()
+        // console.log('uploadToken:', res)
+        this.form.token = res
         return file
       }
     },

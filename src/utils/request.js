@@ -1,12 +1,12 @@
 import axios from 'axios'
-// import store from '@/store'
+import store from '@/store'
 import router from '@/router'
 // 引入消息提示
 import { Message } from 'element-ui'
 
 const request = axios.create({
   // baseURL: 'http://localhost:9979'
-  baseURL: '/api',
+  baseURL: '/api', // 测试环境下跨域
   withCredentials: true, // send cookies when cross-domain requests
   timeout: 10000
 })
@@ -15,10 +15,10 @@ const request = axios.create({
 request.interceptors.request.use(
   config => {
     // 在发送请求之前做些什么
-    // const token = store.state.tokenInfo.token
-    // if (token) {
-    // //   config.headers.Authorization = `Bearer ${token}`
-    // }
+    const token = JSON.parse(store.state.userInfo).token
+    if (token) {
+      config.headers.token = token
+    }
     return config
   },
   function (error) {
@@ -38,6 +38,8 @@ request.interceptors.response.use(res => {
       type: 'error',
       duration: 3000
     })
+    router.replace('/login')
+  } else if (code === 401) { // token失效，重新登录
     router.replace('/login')
   } else {
     return res.data
