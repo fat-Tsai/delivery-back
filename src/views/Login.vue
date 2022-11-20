@@ -89,7 +89,7 @@ export default {
             // 在网页端存储用户信息 现在后端是用的session 后面考虑使用token+Vuex
             this.updateUserInfo(JSON.stringify(res.data))
             this.$message.success('登录成功')
-            this.$router.replace('/')
+            this.$router.replace('/home')
           } else {
             this.$message.error(res.msg)
             this.loading = false

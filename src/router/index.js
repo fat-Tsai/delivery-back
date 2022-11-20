@@ -1,59 +1,53 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '@/views/Login.vue'
-import Main from '@/views/Main.vue'
-import Home from '@/views/Home.vue'
-import EmployeeManage from '@/views/EmployeeManage.vue'
-import AddEmployee from '@/components/AddEmployee.vue'
-import Category from '@/views/Category.vue'
-import Dish from '@/views/Dish.vue'
-import AddDish from '@/components/AddDish.vue'
-import Setmeal from '@/views/Setmeal.vue'
-import AddSetmeal from '@/components/AddSetmeal.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/login',
-    component: Login
+    component: () => import('@/views/Login.vue')
+  },
+  {
+    path: '/',
+    redirect: '/login'
   },
   {
     path: '/',
     name: 'main',
-    component: Main,
+    component: () => import('@/views/Main.vue'),
     children: [
       {
         path: 'home',
-        component: Home
+        component: () => import('@/views/Home.vue')
       },
       {
         path: 'employeeManage',
-        component: EmployeeManage
+        component: () => import('@/views/EmployeeManage.vue')
       },
       {
         path: 'addEmployee',
-        component: AddEmployee
+        component: () => import('@/components/AddEmployee.vue')
       },
       {
         path: 'category',
-        component: Category
+        component: () => import('@/views/Category.vue')
       },
       {
         path: 'dish',
-        component: Dish
+        component: () => import('@/views/Dish.vue')
       },
       {
         path: 'addDish',
-        component: AddDish
+        component: () => import('@/components/AddDish.vue')
       },
       {
         path: 'setmeal',
-        component: Setmeal
+        component: () => import('@/views/Setmeal.vue')
       },
       {
         path: 'addSetmeal',
-        component: AddSetmeal
+        component: () => import('@/components/AddSetmeal.vue')
       },
       {
         path: 'test',

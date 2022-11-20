@@ -5,7 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    userInfo: localStorage.getItem('userInfo') || ''
+    userInfo: sessionStorage.getItem('userInfo') || '',
+    isLogin: !!sessionStorage.getItem('userInfo') || false
   },
   getters: {
     getName: state => {
@@ -18,7 +19,8 @@ export default new Vuex.Store({
       this.commit('saveUserInfo')
     },
     saveUserInfo (state) {
-      localStorage.setItem('userInfo', state.userInfo)
+      // localStorage.setItem('userInfo', state.userInfo)
+      sessionStorage.setItem('userInfo', state.userInfo)
     }
   },
   actions: {

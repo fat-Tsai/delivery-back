@@ -1,5 +1,5 @@
 import axios from 'axios'
-import store from '@/store'
+// import store from '@/store'
 import router from '@/router'
 // 引入消息提示
 import { Message } from 'element-ui'
@@ -15,8 +15,8 @@ const request = axios.create({
 request.interceptors.request.use(
   config => {
     // 在发送请求之前做些什么
-    const token = JSON.parse(store.state.userInfo).token
-    if (token) {
+    if (sessionStorage.getItem('userInfo')) { // 修改登录逻辑，JSON.parse()遇到不存在会报错，导致请求无法发送
+      const token = JSON.parse(sessionStorage.getItem('userInfo')).token
       config.headers.token = token
     }
     return config

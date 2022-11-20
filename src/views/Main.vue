@@ -43,7 +43,7 @@
                 </div>
             </div>
             <!-- 路由占位符 -->
-            <router-view @change="activeChange"></router-view>
+            <router-view class="main-body" @change="activeChange"></router-view>
         </div>
     </div>
 </template>
@@ -117,7 +117,7 @@ export default {
 // 侧边栏
 .sidebar-container {
     width: 190px;
-    height: 100%;
+    height: 100;
     background-color: #333;
     min-height: 100vh;
     .logo {
@@ -186,11 +186,15 @@ export default {
     height: 100%;
     width: calc(100% - 190px);
     background-color: #f3f4f7;
+    .main-body {
+      // overflow: scroll;
+    }
 }
 .navbar {
     height: 64px;
     box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
     background-color: #fff;
+    overflow: hidden;
     .label {
         color: #333333;
         height: 64px;
