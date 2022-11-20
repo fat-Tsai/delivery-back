@@ -42,8 +42,10 @@
                     <img src="../assets/icons/close.png" class="outLogin" alt="退出" @click="logout" style="width: 25px; height: 25px"/>
                 </div>
             </div>
-            <!-- 路由占位符 -->
-            <router-view class="main-body" @change="activeChange"></router-view>
+            <div class="main-body">
+              <!-- 路由占位符 -->
+              <router-view @change="activeChange"></router-view>
+            </div>
         </div>
     </div>
 </template>
@@ -112,12 +114,14 @@ export default {
 .wrapper {
   display: flex;
   background-color: #f3f4f7;
+  height: 100%;
+  overflow: hidden;
 }
 
 // 侧边栏
 .sidebar-container {
     width: 190px;
-    height: 100;
+    height: 100%;
     background-color: #333;
     min-height: 100vh;
     .logo {
@@ -186,8 +190,10 @@ export default {
     height: 100%;
     width: calc(100% - 190px);
     background-color: #f3f4f7;
+    overflow: hidden;
     .main-body {
-      // overflow: scroll;
+      max-height: calc(100% - 64px);
+      overflow: auto;
     }
 }
 .navbar {
