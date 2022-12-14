@@ -23,14 +23,17 @@ request.interceptors.request.use(
   },
   function (error) {
     // 对请求错误做些什么
+    // console.log('error:', error)
+    if (error.response.data.code === 401) {
+      router.replace('/')
+    }
     return Promise.reject(error)
   }
 )
 
 // 添加响应拦截器
 request.interceptors.response.use(res => {
-  const code = res.data.code
-  const msg = res.data.msg
+  const { code, msg } = res.data
   if (code === 0 && msg === 'Not login') { // 未登录状态，无法访问后台
     localStorage.removeItem('userInfo')
     Message({
@@ -38,15 +41,18 @@ request.interceptors.response.use(res => {
       type: 'error',
       duration: 3000
     })
-    router.replace('/login')
+    router.replace('/')
   } else if (code === 401) { // token失效，重新登录
-    router.replace('/login')
+    router.replace('/')
   } else {
     return res.data
   }
 },
 error => {
-  console.log(error)
+  console.log('response.error:', error)
+  if (error.response.data.code === 401) {
+    router.replace('/')
+  }
   return Promise.reject(error)
 }
 )

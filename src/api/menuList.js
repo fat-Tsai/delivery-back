@@ -38,7 +38,7 @@ export const menuList = [
   {
     id: '6',
     name: '订单明细',
-    path: '',
+    path: '/order',
     icon: 'icon-31dingdan',
     children: []
   }

@@ -32,11 +32,11 @@
           <el-table-column label="菜品名称" prop="name"></el-table-column>
           <el-table-column label="图片" prop="image">
             <template slot-scope="{ row }">
-            <el-image style="width: auto; height: 40px; border:none;cursor: pointer;"
+            <el-image style="width: 40px; height: 40px; border:none;cursor: pointer;"
             :src="getImage(row.image)"
             :preview-src-list="[ `http://rkt7dnyi5.hn-bkt.clouddn.com/${row.image}` ]" >
             <div slot="error" class="image-slot">
-              <img src="@/assets/noImg.png"  style="width: auto; height: 40px; border:none;" >
+              <img src="@/assets/noImg.png"  style="width: 40px; height: 40px; border:none;" >
             </div>
           </el-image>
           </template>
