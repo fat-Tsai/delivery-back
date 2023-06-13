@@ -11,8 +11,28 @@ import '@/assets/css/global.css'
 import '@/assets/iconfont/iconfont.css'
 // 导入全局变量
 import global from '@/common/global'
+// 导入并使用echarts
+import * as echarts from 'echarts/core'
+import {
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent
+} from 'echarts/components'
+import { PieChart } from 'echarts/charts'
+import { LabelLayout } from 'echarts/features'
+import { CanvasRenderer } from 'echarts/renderers'
+
+echarts.use([
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent,
+  PieChart,
+  CanvasRenderer,
+  LabelLayout
+])
 // 将全局变量挂载到Vue上
 Vue.prototype.$GLOBAL = global
+Vue.prototype.$echarts = echarts
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)

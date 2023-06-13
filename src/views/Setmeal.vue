@@ -4,7 +4,7 @@
         <!-- 头部搜索框+按钮 -->
         <div class="tablebar">
             <el-input
-                placeholder="请输入菜品名称"
+                placeholder="请输入套餐名称"
                 v-model="searchMsg"
                 clearable
                 @keyup.enter.native="handleQuery"
@@ -34,7 +34,7 @@
             <template slot-scope="{ row }">
             <el-image style="width: 40px; height: 40px; border:none;cursor: pointer;"
             :src="getImage(row.image)"
-            :preview-src-list="[ `http://rkt7dnyi5.hn-bkt.clouddn.com/${row.image}` ]" >
+            :preview-src-list="[ `https://delivery-1313364762.cos.ap-nanjing.myqcloud.com/${row.image}` ]" >
             <div slot="error" class="image-slot">
               <img src="@/assets/noImg.png"  style="width: 40px; height: 40px; border:none;" >
             </div>
@@ -213,7 +213,8 @@ export default {
       this.checkList = checkArr
     },
     getImage (image) {
-      return `http://rkt7dnyi5.hn-bkt.clouddn.com/${image}`
+      // return `http://rkt7dnyi5.hn-bkt.clouddn.com/${image}`
+      return `https://delivery-1313364762.cos.ap-nanjing.myqcloud.com/${image}`
     }
   }
 }

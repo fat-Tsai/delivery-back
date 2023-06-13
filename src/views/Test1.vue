@@ -13,6 +13,8 @@
             <img v-if="imageUrl" :src="imageUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
+        <el-progress type="circle" :percentage="75"></el-progress>
+        <el-progress :text-inside="true" :stroke-width="26" :percentage="70"></el-progress>
     </div>
   </div>
 </template>
@@ -30,7 +32,8 @@ export default {
       form: {
         token: ''
       },
-      imageUrl: ''
+      imageUrl: '',
+      number: 75
     }
   },
   methods: {

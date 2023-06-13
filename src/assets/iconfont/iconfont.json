@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "7596827",
+      "name": "24gl-portraitMaleInfo",
+      "font_class": "24gl-portraitMaleInfo",
+      "unicode": "eb24",
+      "unicode_decimal": 60196
+    },
+    {
       "icon_id": "7193674",
       "name": "返回",
       "font_class": "fanhui1",

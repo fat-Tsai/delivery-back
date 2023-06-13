@@ -50,7 +50,7 @@
                     </div>
                 </el-form-item>
                 <el-form-item label="套餐图片" required>
-                    <el-upload class="avatar-uploader"
+                    <!-- <el-upload class="avatar-uploader"
                           action="/api/common/upload"
                           :show-file-list="false"
                           :on-success="handleAvatarSuccess"
@@ -58,7 +58,28 @@
                           ref="">
                       <img v-if="imageUrl" :src="imageUrl" class="avatar">
                       <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                    </el-upload> -->
+                    <el-upload
+                        class="avatar-uploader"
+                        :on-preview="preview"
+                        :on-remove="handleRemove"
+                        :on-change="changeFile"
+                        :before-upload="beforeUpload"
+                        :on-exceed="onExceed"
+                        :file-list="fileList"
+                        action="#"
+                        :limit="1"
+                        :class="{ disabled: fileComputed }"
+                        :http-request="upload"
+                        >
+                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
+                    <el-progress
+                        v-if="showPercent"
+                        style="width: 180px"
+                        :percentage="percent"
+                    />
                 </el-form-item>
                 <el-form-item label="套餐描述" prop="description">
                     <el-input
@@ -81,19 +102,6 @@
             :visible.sync="dialogVisible"
             width="60%"
             :before-close="handleClose">
-            <!-- <el-input
-                placeholder="请输入菜品并按回车进行搜索"
-                v-model="value"
-                clearable
-                @keyup.enter.native="handleQuery"
-                style="width: 250px"
-                class="searchDish">
-                <i
-                  slot="prefix"
-                  class="el-input__icon el-icon-search"
-                  style="cursor: pointer"
-                  @click="searchHandle"></i>
-            </el-input> -->
             <!-- dialog body 对话框主体部分-->
             <div class="addDishCon">
               <!-- 左边待选菜品 -->
@@ -123,7 +131,8 @@
                         class="items">
                         <el-checkbox
                           :key="index"
-                          :label="item">
+                          :label="item"
+                          :checked="item.isChecked">
                           <div class="item">
                             <span style="flex:3;text-align: left;">{{ item.dishName }}</span>
                             <span>{{ item.status == 0 ? '停售' : '在售' }}</span>
@@ -168,6 +177,11 @@
 import { getList } from '@/api/category'
 import { queryDishList } from '@/api/dish'
 import { addSetmeal, getSetmealInfo, updateSetmealInfo } from '@/api/setmeal'
+import COS from 'cos-js-sdk-v5'
+const cos = new COS({
+  SecretId: 'AKIDXHp7CJON8sMcdQrHZcQ6bsvviIdiW2Hz',
+  SecretKey: 'XmmjgSxMbfdQ1CAtNgkkY8YxBAtQhkY7'
+})
 export default {
   name: 'AddSetmeal',
   data () {
@@ -234,7 +248,18 @@ export default {
       setmealList: [],
       // 已选的菜品列表
       checkedList: [],
-      id: ''
+      id: '',
+      fileList: [],
+      showDialog: false, // 控制显示弹层
+      imgUrl: '',
+      currentFileUid: null, // 确定上传图片的id
+      showPercent: false, // 状态加载条
+      percent: 0 // 进度条加载过程
+    }
+  },
+  computed: {
+    fileComputed () {
+      return this.fileList.length === 1
     }
   },
   watch: {
@@ -258,6 +283,12 @@ export default {
     this.getSetmealList()
   },
   methods: {
+    delDishHandle (ind) {
+      this.dishTable.splice(ind, 1)
+      this.checkList.splice(ind, 1)
+      console.log('checkList', this.checkList)
+      console.log('dishTable', this.dishTable)
+    },
     // 删除已选菜品
     delCheck (ind) {
       this.checkedList.splice(ind, 1)
@@ -279,6 +310,9 @@ export default {
     },
     // 点击添加菜品进入套餐
     checkedListHandle (value) {
+      console.log('value', value)
+      console.log(this.checkedList)
+      // value.isChecked = true
       this.getCheckList(this.checkedList)
     },
     // 获取添加菜品数据
@@ -324,6 +358,7 @@ export default {
             item.dishId = item.id
             item.copies = 1
             item.dishName = item.name
+            item.isChecked = false
           })
           this.dishAddList = newArr
         } else {
@@ -344,38 +379,140 @@ export default {
         this.dishTable = res.data.setmealDishes
         this.checkList = res.data.setmealDishes
         // 图片回显
-        this.imageUrl = 'http://rkt7dnyi5.hn-bkt.clouddn.com/' + this.form.image
+        // this.imageUrl = 'http://rkt7dnyi5.hn-bkt.clouddn.com/' + this.form.image
+        this.imgUrl = 'https://delivery-1313364762.cos.ap-nanjing.myqcloud.com/' + this.form.image
+        // this.fileList.push('https://delivery-1313364762.cos.ap-nanjing.myqcloud.com/' + this.form.image)
+        this.imageUrl = 'https://delivery-1313364762.cos.ap-nanjing.myqcloud.com/' + this.form.image
       } else {
         this.$message.error(res.msg || '操作失败')
       }
     },
 
-    // 上传图片完成时执行的方法
-    handleAvatarSuccess (response, file, fileList) {
-      this.form.image = response.data
-      this.imageUrl = 'http://rkt7dnyi5.hn-bkt.clouddn.com/' + this.form.image
-    },
+    // // 上传图片完成时执行的方法
+    // handleAvatarSuccess (response, file, fileList) {
+    //   this.form.image = response.data
+    //   this.imageUrl = 'http://rkt7dnyi5.hn-bkt.clouddn.com/' + this.form.image
+    // },
 
-    // 上传图片前执行
+    // // 上传图片前执行
+    // beforeUpload (file) {
+    //   if (file) {
+    //     const suffix = file.name.split('.')[1]
+    //     const size = file.size / 1024 / 1024 < 2
+    //     if (['png', 'jpeg', 'jpg'].indexOf(suffix) < 0) {
+    //       this.$message.error('上传图片只支持 png、jpeg、jpg 格式！')
+    //       this.$refs.upload.clearFiles()
+    //       return false
+    //     }
+    //     if (!size) {
+    //       this.$message.error('上传文件大小不能超过 2MB!')
+    //       return false
+    //     }
+    //     return file
+    //   }
+    // },
+
+    // 超出的回调
+    onExceed () {
+      this.$message.warning('当前仅支持上传一张图片')
+    },
+    // 预览图片时的回调
+    preview (file) {
+      // this.imgUrl = 'https://delivery-1313364762.cos.ap-nanjing.myqcloud.com/' + file.url // 点击预览时，传递图片地址给弹出层
+      // this.imgUrl = file.url // 点击预览时，传递图片地址给弹出层
+      this.imageUrl = file.url // 点击预览时，传递图片地址给弹出层
+      this.showDialog = true
+    },
+    // 删除图片的回调
+    handleRemove (file) {
+      this.fileList = this.fileList.filter((item) => item.uid !== file.uid)
+    },
+    // 修改图片的回调
+    changeFile (file, fileList) {
+      this.fileList = fileList.map((item) => item)
+    },
+    // 上传之前检查
     beforeUpload (file) {
-      if (file) {
-        const suffix = file.name.split('.')[1]
-        const size = file.size / 1024 / 1024 < 2
-        if (['png', 'jpeg', 'jpg'].indexOf(suffix) < 0) {
-          this.$message.error('上传图片只支持 png、jpeg、jpg 格式！')
-          this.$refs.upload.clearFiles()
-          return false
-        }
-        if (!size) {
-          this.$message.error('上传文件大小不能超过 2MB!')
-          return false
-        }
-        return file
-      }
-    },
+      // 要开始做文件上传的检查了
+      // 文件类型 文件大小
+      const types = ['image/jpeg', 'image/gif', 'image/bmp', 'image/png']
 
-    // 移除图片，注意：不管有没有移除图片都已经上传，这个地方需要优化
-    handleRemove () {
+      /*  if (!types.includes(file.type)) {
+        this.$message.error('上传图片只能是 JPG、GIF、BMP、PNG 格式!')
+        return false
+      } */
+      if (!types.some((item) => item === file.type)) {
+        // 此时说明上传的类型不是规定类型
+        this.$message.warning('上传图片只能是 JPG、GIF、BMP、PNG 格式!')
+        return false // 停止上传
+      }
+      // 限制大小为2mb
+      const maxSize = 2 * 1024 * 1024
+      if (maxSize < file.size) {
+        this.$message.error('图片大小最大不能超过2M')
+        return false
+      }
+      // 此时upload组件会为文件对象生成一个id属性
+
+      this.currentFileUid = file.uid
+      // 显示加载进度条
+      this.showPercent = true
+      return true
+    },
+    // 自定义上传动作 有个参数 有个file对象，是我们需要上传到腾讯云服务器的内容
+    // 进行上传操作
+    upload (params) {
+      //   console.log(params.file)
+      if (params.file) {
+        // 执行上传操作
+        cos.putObject(
+          {
+            Bucket: 'delivery-1313364762', // 存储桶
+            Region: 'ap-nanjing', // 地域
+            Key: params.file.name, // 文件名
+            Body: params.file, // 要上传的文件对象
+            StorageClass: 'STANDARD', // 上传的模式类型 直接默认 标准模式即可
+            // 上传到腾讯云 =》 哪个存储桶 哪个地域的存储桶 文件  格式  名称 回调
+            onProgress: (params) => {
+              this.percent = params.percent * 100
+            }
+          },
+          (err, data) => {
+            // 这个回调需要使用箭头函数，因为currentFileUid在当前组件实例对象上，
+            // 箭头函数没有this,会继承upload方法的this，它的this执行vue组件实例
+
+            // data中有一个statusCode === 200 的时候说明上传成功
+            if (!err && data.statusCode === 200) {
+              console.log('data:', data)
+              //   此时说明文件上传成功  云服务器会返回一个地址，我们需要把该地址放到组件的img标签上
+              //  此时我们要将fileList中的数据的url地址变成 现在上传成功的地址
+              // 目前虽然是一张图片 但是请注意 我们的fileList是一个数组
+              // 需要知道当前上传成功的是哪一张图片
+              this.fileList = this.fileList.map((item) => {
+                // 去找谁的uid等于刚刚记录下来的id
+                if (item.uid === this.currentFileUid) {
+                  // Location为传回的地址，但是没有http字段
+                  // 将成功的地址赋值给原来的url属性
+                  console.log(data.Location)
+                  const realUrl = data.Location.substring(data.Location.lastIndexOf('/') + 1)
+                  this.form.image = realUrl
+                  return { url: 'https://' + data.Location, upload: true }
+
+                  // upload 为true 表示这张图片已经上传完毕 这个属性要为我们后期应用的时候做标记
+                  // 保存  => 图片有大有小 => 上传速度有快又慢 =>要根据有没有upload这个标记来决定是否去保存
+                }
+                return item
+              })
+              // 将上传成功的地址 回写到了fileList中 fileList变化  =》 upload组件 就会根据fileList的变化而去渲染视图
+              setTimeout(() => {
+                this.showPercent = false // 隐藏进度条
+                this.percent = 0 // 进度归0
+              }, 1000)
+              this.imageUrl = this.fileList[0].url
+            }
+          }
+        )
+      }
     },
 
     // 返回上一个页面
@@ -458,11 +595,6 @@ export default {
     searchHandle () {
       this.searchKey = this.value
     }
-    // handleQuery () {
-    //   getDishList(1, 100, this.searchKey).then(res => {
-    //     console.log('getDishList', res)
-    //   })
-    // }
   }
 }
 </script>
@@ -495,6 +627,17 @@ export default {
     border: dashed 2px #d8dde3 !important;
     border-radius: 4px !important;
     background: #fcfcfc;
+  }
+  .avatar {
+    background-color: #fbfdff;
+    border: 1px dashed #c0ccda;
+    border-radius: 6px;
+    box-sizing: border-box;
+    width: 148px;
+    height: 148px;
+    cursor: pointer;
+    line-height: 146px;
+    vertical-align: top;
   }
 }
 

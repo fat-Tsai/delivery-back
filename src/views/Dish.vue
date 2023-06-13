@@ -34,7 +34,7 @@
             <template slot-scope="{ row }">
             <el-image style="width: 40px; height: 40px; border:none;cursor: pointer;border-radius: 2px;"
               :src="getImage(row.image)"
-              :preview-src-list="[ `http://rkt7dnyi5.hn-bkt.clouddn.com/${row.image}` ]" >
+              :preview-src-list="[ `https://delivery-1313364762.cos.ap-nanjing.myqcloud.com/${row.image}` ]" >
               <div slot="error" class="image-slot">
                 <img src="@/assets/noImg.png"  style="width: 40px; height: 40px; border:none;" >
               </div>
@@ -214,7 +214,8 @@ export default {
     },
     // 图片获取的方法 待优化 已优化
     getImage (image) {
-      return 'http://rkt7dnyi5.hn-bkt.clouddn.com/' + image
+      // return 'http://rkt7dnyi5.hn-bkt.clouddn.com/' + image
+      return 'https://delivery-1313364762.cos.ap-nanjing.myqcloud.com/' + image
     }
   }
 }

@@ -22,7 +22,7 @@ const routes = [
         component: () => import('@/views/Home.vue')
       },
       {
-        path: 'employeeManage',
+        path: 'employee',
         component: () => import('@/views/EmployeeManage.vue')
       },
       {
@@ -54,8 +54,28 @@ const routes = [
         component: () => import('@/views/Test1.vue')
       },
       {
+        path: 'tecentCos',
+        component: () => import('@/views/TecentCos.vue')
+      },
+      {
+        path: 'tecentCosSingle',
+        component: () => import('@/views/TecentCosSingle.vue')
+      },
+      {
         path: 'order',
         component: () => import('@/views/Order.vue')
+      },
+      {
+        path: 'user',
+        component: () => import('@/views/User.vue')
+      },
+      {
+        path: 'static',
+        component: () => import('@/views/Static.vue')
+      },
+      {
+        path: '/timePicker',
+        component: () => import('@/views/TestTimePicker.vue')
       }
     ]
   }

@@ -10,7 +10,7 @@ export const menuList = [
   {
     id: '2',
     name: '员工管理',
-    path: '/employeeManage',
+    path: '/employee',
     icon: 'icon-yuangongguanli',
     children: []
   },
@@ -40,6 +40,13 @@ export const menuList = [
     name: '订单明细',
     path: '/order',
     icon: 'icon-31dingdan',
+    children: []
+  },
+  {
+    id: '7',
+    name: '用户管理',
+    path: '/user',
+    icon: 'icon-24gl-portraitMaleInfo',
     children: []
   }
 ]
